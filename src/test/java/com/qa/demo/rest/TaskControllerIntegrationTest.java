@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
@@ -85,6 +86,65 @@ public class TaskControllerIntegrationTest {
 
 		// ACTION
 		this.mock.perform(mockRequest).andExpect(matchStatus).andExpect(matchContent);
+
+	}
+
+	// POST
+	@Test
+	public void create() throws Exception {
+		// RESOURCES
+		TaskDomain contentBody = new TaskDomain(1L, "TaskOne", false, null);
+		TaskDTO expectedResult = mapToDTO(contentBody);
+
+		// REQUEST
+		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
+				.request(HttpMethod.POST, "http://localhost:8080/Task/create").contentType(MediaType.APPLICATION_JSON)
+				.content(jsonifier.writeValueAsString(contentBody)).accept(MediaType.APPLICATION_JSON);
+
+		// EXPECTATIONS
+		ResultMatcher matchStatus = MockMvcResultMatchers.status().isCreated();
+		ResultMatcher matchContent = MockMvcResultMatchers.content().json(jsonifier.writeValueAsString(expectedResult));
+
+		// ACTION
+		this.mock.perform(mockRequest).andExpect(matchStatus).andExpect(matchContent);
+	}
+
+	// PUT
+	@Test
+	public void updateAccount() throws Exception {
+		// RESOURCES
+		TaskDomain contentBody = new TaskDomain(1L, "TaskOne", false, null);
+		TaskDTO expectedResult = mapToDTO(contentBody);
+
+		// REQUEST
+		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
+				.request(HttpMethod.PUT, "http://localhost:8080/Task/update/" + id)
+				.contentType(MediaType.APPLICATION_JSON).content(jsonifier.writeValueAsString(contentBody))
+				.accept(MediaType.APPLICATION_JSON);
+
+		// EXPECTATIONS
+		ResultMatcher matchStatus = MockMvcResultMatchers.status().isAccepted();
+		ResultMatcher matchContent = MockMvcResultMatchers.content().json(jsonifier.writeValueAsString(expectedResult));
+
+		// ACTION
+		this.mock.perform(mockRequest).andExpect(matchStatus).andExpect(matchContent);
+
+	}
+
+	// DELETE
+	@Test
+	public void deleteAccount() throws Exception {
+		// RESOURCES
+
+		// REQUEST
+		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.DELETE,
+				"http://localhost:8080/Task/delete/" + id);
+
+		// EXPECTATIONS
+		ResultMatcher matchStatus = MockMvcResultMatchers.status().isNoContent();
+
+		// ACTION
+		this.mock.perform(mockRequest).andExpect(matchStatus);
 
 	}
 
