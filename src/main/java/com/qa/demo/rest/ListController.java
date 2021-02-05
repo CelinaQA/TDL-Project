@@ -2,8 +2,6 @@ package com.qa.demo.rest;
 
 import java.util.List;
 
-import javax.websocket.server.PathParam;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,8 +48,8 @@ public class ListController {
 	}
 
 	// PUT
-	@PutMapping("/update")
-	public ResponseEntity<ListDTO> updateList(@PathParam("id") Long id, @RequestBody ListDomain list) {
+	@PutMapping("/update/{id}")
+	public ResponseEntity<ListDTO> updateList(@PathVariable("id") Long id, @RequestBody ListDomain list) {
 		return new ResponseEntity<ListDTO>(this.service.update(id, list), HttpStatus.ACCEPTED);
 	}
 
