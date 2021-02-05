@@ -82,6 +82,27 @@ public class ListServiceUnitTest {
 
 	}
 	
+	@Test
+	public void create() {
+		// RESOURCES
+		ListDomain testListDomain = new ListDomain(1L, "OneList", null);
+		ListDTO testListDTO = new ListDTO(1L, "OneList", null);
+
+		// RULES
+		Mockito.when(this.mockedRepo.save(Mockito.any(ListDomain.class))).thenReturn(testListDomain);
+		Mockito.when(this.mockedMapper.map(testListDomain, ListDTO.class)).thenReturn(testListDTO);
+
+		// ACTIONS
+		ListDTO result = this.service.create(testListDomain);
+
+		// ASSERTIONS
+		Assertions.assertThat(result).isNotNull();
+		Assertions.assertThat(result).isEqualTo(testListDTO);
+		Assertions.assertThat(result).usingRecursiveComparison().isEqualTo(testListDTO); // compares values of fields rather than object instances
+
+		Mockito.verify(this.mockedRepo, Mockito.times(1)).save(Mockito.any(ListDomain.class));
+		Mockito.verify(this.mockedMapper, Mockito.times(1)).map(testListDomain, ListDTO.class);
+	}
 	
 
 }
