@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
@@ -26,10 +27,15 @@ public class TaskDomain {
 	@NotNull
 	private Boolean isDone = false;
 
+	@ManyToOne
+	private ListDomain myList;
+
 	// Create task
-	public TaskDomain(@NotNull String description) {
+	public TaskDomain(@NotNull String description, @NotNull Boolean isDone, ListDomain myList) {
 		super();
 		this.description = description;
+		this.isDone = isDone;
+		this.myList = myList;
 	}
 
 }
