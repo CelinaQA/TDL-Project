@@ -21,7 +21,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.qa.demo.persistence.domain.ListDomain;
 import com.qa.demo.persistence.domain.TaskDomain;
+import com.qa.demo.persistence.dtos.ListDTO;
 import com.qa.demo.persistence.dtos.TaskDTO;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -29,7 +31,7 @@ import com.qa.demo.persistence.dtos.TaskDTO;
 @Sql(scripts = { "classpath:schema-test.sql",
 		"classpath:data-test.sql" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 @ActiveProfiles(profiles = "test")
-public class TaskControllerIntegrationTest {
+public class ListControllerIntegrationTest {
 
 	@Autowired
 	private MockMvc mock;
@@ -38,28 +40,30 @@ public class TaskControllerIntegrationTest {
 	@Autowired
 	private ObjectMapper jsonifier;
 
-	private TaskDTO mapToDTO(TaskDomain task) {
-		return this.mapper.map(task, TaskDTO.class);
+	private ListDTO mapToDTO(ListDomain list) {
+		return this.mapper.map(list, ListDTO.class);
 	}
 
 	private final int id = 1;
+	List<TaskDomain> taskListDomain = new ArrayList<>();
+	List<TaskDTO> taskListDTO = new ArrayList<>();
 
 	// GET
 	@Test
 	public void readAll() throws Exception {
 		// RESOURCES
-		TaskDTO task1 = new TaskDTO(1L, "TaskOne", false);
-		TaskDTO task2 = new TaskDTO(2L, "TaskTwo", false);
-		TaskDTO task3 = new TaskDTO(3L, "TaskThree", false);
+		ListDTO list1 = new ListDTO(1L, "ListOne", taskListDTO);
+		ListDTO list2 = new ListDTO(2L, "ListTwo", taskListDTO);
+		ListDTO list3 = new ListDTO(3L, "ListThree", taskListDTO);
 
-		List<TaskDTO> expectedResult = new ArrayList<>();
-		expectedResult.add(task1);
-		expectedResult.add(task2);
-		expectedResult.add(task3);
+		List<ListDTO> expectedResult = new ArrayList<>();
+		expectedResult.add(list1);
+		expectedResult.add(list2);
+		expectedResult.add(list3);
 
 		// REQUEST
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.GET,
-				"http://localhost:8080/Task/readAll");
+				"http://localhost:8080/List/readAll");
 
 		// EXPECTATIONS
 		ResultMatcher matchStatus = MockMvcResultMatchers.status().isOk();
@@ -71,14 +75,14 @@ public class TaskControllerIntegrationTest {
 	}
 
 	@Test
-	public void readTask() throws Exception {
+	public void readList() throws Exception {
 
 		// RESOURCES
-		TaskDTO expectedResult = new TaskDTO(1L, "TaskOne", false);
+		ListDTO expectedResult = new ListDTO(1L, "ListOne", taskListDTO);
 
 		// REQUEST
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.GET,
-				"http://localhost:8080/Task/read/" + id);
+				"http://localhost:8080/List/read/" + id);
 
 		// EXPECTATIONS
 		ResultMatcher matchStatus = MockMvcResultMatchers.status().isOk();
@@ -93,12 +97,12 @@ public class TaskControllerIntegrationTest {
 	@Test
 	public void create() throws Exception {
 		// RESOURCES
-		TaskDomain contentBody = new TaskDomain(1L, "TaskOne", false, null);
-		TaskDTO expectedResult = mapToDTO(contentBody);
+		ListDomain contentBody = new ListDomain(1L, "ListOne", taskListDomain);
+		ListDTO expectedResult = mapToDTO(contentBody);
 
 		// REQUEST
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
-				.request(HttpMethod.POST, "http://localhost:8080/Task/create").contentType(MediaType.APPLICATION_JSON)
+				.request(HttpMethod.POST, "http://localhost:8080/List/create").contentType(MediaType.APPLICATION_JSON)
 				.content(jsonifier.writeValueAsString(contentBody)).accept(MediaType.APPLICATION_JSON);
 
 		// EXPECTATIONS
@@ -111,14 +115,14 @@ public class TaskControllerIntegrationTest {
 
 	// PUT
 	@Test
-	public void updateTask() throws Exception {
+	public void updateList() throws Exception {
 		// RESOURCES
-		TaskDomain contentBody = new TaskDomain(1L, "TaskOne", false, null);
-		TaskDTO expectedResult = mapToDTO(contentBody);
+		ListDomain contentBody = new ListDomain(1L, "ListOne", taskListDomain);
+		ListDTO expectedResult = mapToDTO(contentBody);
 
 		// REQUEST
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
-				.request(HttpMethod.PUT, "http://localhost:8080/Task/update/" + id)
+				.request(HttpMethod.PUT, "http://localhost:8080/List/update/" + id)
 				.contentType(MediaType.APPLICATION_JSON).content(jsonifier.writeValueAsString(contentBody))
 				.accept(MediaType.APPLICATION_JSON);
 
@@ -133,12 +137,12 @@ public class TaskControllerIntegrationTest {
 
 	// DELETE
 	@Test
-	public void deleteTask() throws Exception {
+	public void deleteList() throws Exception {
 		// RESOURCES
 
 		// REQUEST
 		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.DELETE,
-				"http://localhost:8080/Task/delete/" + id);
+				"http://localhost:8080/List/delete/" + id);
 
 		// EXPECTATIONS
 		ResultMatcher matchStatus = MockMvcResultMatchers.status().isNoContent();

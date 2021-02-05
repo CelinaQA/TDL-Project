@@ -1,8 +1,8 @@
 INSERT INTO list_domain (name) 
 VALUES ('ListOne'), ('ListTwo'), ('ListThree');
 
-INSERT INTO task_domain(description, is_done, my_list_id) 
+INSERT INTO task_domain(description, is_done) 
 VALUES
-('TaskOne',false,1),
-('TaskTwo',false,2),
-('TaskThree',false,3);
+('TaskOne',false),
+('TaskTwo',false),
+('TaskThree',false);
