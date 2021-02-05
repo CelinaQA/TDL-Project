@@ -14,19 +14,22 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ListDomain {
+public class TaskDomain {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@NotNull
-	private String name;
+	private String description;
 
-	// Create list
-	public ListDomain(@NotNull String name) {
+	@NotNull
+	private Boolean isDone = false;
+
+	// Create task
+	public TaskDomain(@NotNull String description) {
 		super();
-		this.name = name;
+		this.description = description;
 	}
 
 }
