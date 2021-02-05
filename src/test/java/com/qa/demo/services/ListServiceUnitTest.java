@@ -131,5 +131,22 @@ public class ListServiceUnitTest {
 
 	}
 	
+	@Test
+	public void delete() {
+		// RESOURCES
+		ListDomain testListDomain = new ListDomain(1L, "OneList", null);
 
+		// RULES
+		Mockito.when(this.mockedRepo.existsById(1L)).thenReturn(false);
+
+		// ACTIONS
+		boolean result = this.service.delete(1L);
+
+		// ASSERTIONS
+		Assertions.assertThat(result).isTrue();
+
+		Mockito.verify(this.mockedRepo, Mockito.times(1)).deleteById(1L);
+
+	}
+	
 }
