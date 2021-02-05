@@ -99,37 +99,54 @@ public class TaskServiceUnitTest {
 		Assertions.assertThat(result).isNotNull();
 		Assertions.assertThat(result).isEqualTo(testTaskDTO);
 		Assertions.assertThat(result).usingRecursiveComparison().isEqualTo(testTaskDTO); // compares values of fields rather than object instances
-		
+
 		Mockito.verify(this.mockedRepo, Mockito.times(1)).save(Mockito.any(TaskDomain.class));
 		Mockito.verify(this.mockedMapper, Mockito.times(1)).map(testTaskDomain, TaskDTO.class);
 	}
-	
+
 	@Test
 	public void update() {
-		//RESOURCES
+		// RESOURCES
 		TaskDomain testTaskDomain = new TaskDomain(1L, "OneTask", false, null);
 		TaskDTO testTaskDTO = new TaskDTO(1L, "OneTask", false);
 
 		Long id = 1L;
-		
-		//RULES
+
+		// RULES
 		Mockito.when(this.mockedRepo.findById(testTaskDomain.getId())).thenReturn(Optional.of(testTaskDomain));
 		Mockito.when(this.mockedRepo.save(Mockito.any(TaskDomain.class))).thenReturn(testTaskDomain);
 		Mockito.when(this.mockedMapper.map(testTaskDomain, TaskDTO.class)).thenReturn(testTaskDTO);
 
-		//ACTIONS
+		// ACTIONS
 		TaskDTO result = this.service.update(id, testTaskDomain);
-				
-		//ASSERTIONS
+
+		// ASSERTIONS
 		Assertions.assertThat(result).isNotNull();
 		Assertions.assertThat(result).isEqualTo(testTaskDTO);
 		Assertions.assertThat(result).usingRecursiveComparison().isEqualTo(testTaskDTO);
-				
-		Mockito.verify(this.mockedRepo, Mockito.times(1)).findById(id);	
-		Mockito.verify(this.mockedRepo, Mockito.times(1)).save(testTaskDomain);	
+
+		Mockito.verify(this.mockedRepo, Mockito.times(1)).findById(id);
+		Mockito.verify(this.mockedRepo, Mockito.times(1)).save(testTaskDomain);
 		Mockito.verify(this.mockedMapper, Mockito.times(1)).map(testTaskDomain, TaskDTO.class);
 
 	}
-	
+
+	@Test
+	public void delete() {
+		// RESOURCES
+		TaskDomain testTaskDomain = new TaskDomain(1L, "OneTask", false, null);
+
+		// RULES
+		Mockito.when(this.mockedRepo.existsById(1L)).thenReturn(false);
+
+		// ACTIONS
+		boolean result = this.service.delete(1L);
+
+		// ASSERTIONS
+		Assertions.assertThat(result).isTrue();
+
+		Mockito.verify(this.mockedRepo, Mockito.times(1)).deleteById(1L);
+
+	}
 
 }
