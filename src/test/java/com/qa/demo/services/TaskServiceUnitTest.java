@@ -104,6 +104,32 @@ public class TaskServiceUnitTest {
 		Mockito.verify(this.mockedMapper, Mockito.times(1)).map(testTaskDomain, TaskDTO.class);
 	}
 	
+	@Test
+	public void update() {
+		//RESOURCES
+		TaskDomain testTaskDomain = new TaskDomain(1L, "OneTask", false, null);
+		TaskDTO testTaskDTO = new TaskDTO(1L, "OneTask", false);
+
+		Long id = 1L;
+		
+		//RULES
+		Mockito.when(this.mockedRepo.findById(testTaskDomain.getId())).thenReturn(Optional.of(testTaskDomain));
+		Mockito.when(this.mockedRepo.save(Mockito.any(TaskDomain.class))).thenReturn(testTaskDomain);
+		Mockito.when(this.mockedMapper.map(testTaskDomain, TaskDTO.class)).thenReturn(testTaskDTO);
+
+		//ACTIONS
+		TaskDTO result = this.service.update(id, testTaskDomain);
+				
+		//ASSERTIONS
+		Assertions.assertThat(result).isNotNull();
+		Assertions.assertThat(result).isEqualTo(testTaskDTO);
+		Assertions.assertThat(result).usingRecursiveComparison().isEqualTo(testTaskDTO);
+				
+		Mockito.verify(this.mockedRepo, Mockito.times(1)).findById(id);	
+		Mockito.verify(this.mockedRepo, Mockito.times(1)).save(testTaskDomain);	
+		Mockito.verify(this.mockedMapper, Mockito.times(1)).map(testTaskDomain, TaskDTO.class);
+
+	}
 	
 
 }
