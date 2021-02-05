@@ -104,5 +104,32 @@ public class ListServiceUnitTest {
 		Mockito.verify(this.mockedMapper, Mockito.times(1)).map(testListDomain, ListDTO.class);
 	}
 	
+	@Test
+	public void update() {
+		// RESOURCES
+		ListDomain testListDomain = new ListDomain(1L, "OneList", null);
+		ListDTO testListDTO = new ListDTO(1L, "OneList", null);
+
+		Long id = 1L;
+
+		// RULES
+		Mockito.when(this.mockedRepo.findById(testListDomain.getId())).thenReturn(Optional.of(testListDomain));
+		Mockito.when(this.mockedRepo.save(Mockito.any(ListDomain.class))).thenReturn(testListDomain);
+		Mockito.when(this.mockedMapper.map(testListDomain, ListDTO.class)).thenReturn(testListDTO);
+
+		// ACTIONS
+		ListDTO result = this.service.update(id, testListDomain);
+
+		// ASSERTIONS
+		Assertions.assertThat(result).isNotNull();
+		Assertions.assertThat(result).isEqualTo(testListDTO);
+		Assertions.assertThat(result).usingRecursiveComparison().isEqualTo(testListDTO);
+
+		Mockito.verify(this.mockedRepo, Mockito.times(1)).findById(id);
+		Mockito.verify(this.mockedRepo, Mockito.times(1)).save(testListDomain);
+		Mockito.verify(this.mockedMapper, Mockito.times(1)).map(testListDomain, ListDTO.class);
+
+	}
+	
 
 }
