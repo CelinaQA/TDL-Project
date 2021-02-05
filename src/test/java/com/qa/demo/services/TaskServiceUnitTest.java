@@ -82,4 +82,28 @@ public class TaskServiceUnitTest {
 
 	}
 
+	@Test
+	public void create() {
+		// RESOURCES
+		TaskDomain testTaskDomain = new TaskDomain(1L, "OneTask", false, null);
+		TaskDTO testTaskDTO = new TaskDTO(1L, "OneTask", false);
+
+		// RULES
+		Mockito.when(this.mockedRepo.save(Mockito.any(TaskDomain.class))).thenReturn(testTaskDomain);
+		Mockito.when(this.mockedMapper.map(testTaskDomain, TaskDTO.class)).thenReturn(testTaskDTO);
+
+		// ACTIONS
+		TaskDTO result = this.service.create(testTaskDomain);
+
+		// ASSERTIONS
+		Assertions.assertThat(result).isNotNull();
+		Assertions.assertThat(result).isEqualTo(testTaskDTO);
+		Assertions.assertThat(result).usingRecursiveComparison().isEqualTo(testTaskDTO); // compares values of fields rather than object instances
+		
+		Mockito.verify(this.mockedRepo, Mockito.times(1)).save(Mockito.any(TaskDomain.class));
+		Mockito.verify(this.mockedMapper, Mockito.times(1)).map(testTaskDomain, TaskDTO.class);
+	}
+	
+	
+
 }
