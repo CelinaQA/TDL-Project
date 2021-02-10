@@ -1,10 +1,21 @@
 'use strict';
 
 const displayList = document.querySelector("#displayList");
+
 const selectList = document.querySelector("#selectList");
 const selectListAddTask = document.querySelector("#selectListAddTask");
-const alertMsg = document.querySelector("#onsuccess");
+const selectListDelete = document.querySelector("#selectListDelete");
+
+
+const alertMsgCreate = document.querySelector("#onCreation");
+const alertMsgAdd = document.querySelector("#onAddition");
+const alertMsgRead = document.querySelector("#invalidSelection");
+const alertMsgDelete = document.querySelector("#onDeletion");
+
+
 const newListName = document.querySelector("#newListName");
+const newTaskDesc = document.querySelector("#newTaskDesc");
+
 
 const createTab = document.querySelector("#create-tab");
 const readTab = document.querySelector("#read-tab");
@@ -31,8 +42,48 @@ const createList = () => {
         .then(response => {
             console.log(`${data.name} created`);
             inputName.value = "";
+            alertMsgCreate.setAttribute("class", "alert alert-success");
+            alertMsgCreate.innerHTML = "Your to-do list has been created!";
+            setTimeout(() => {
+                alertMsgCreate.removeAttribute("class");
+                alertMsgCreate.innerHTML = "";
+            }, 2000);
         })
         .catch(err => console.error(`Stopppppp! ${err}`));
+}
+
+const addTaskToList = () => {
+
+    const listIdValue = selectListAddTask.value;
+    const taskDescValue = newTaskDesc.value;
+
+    let data = {
+        description: `${taskDescValue}`,
+        isDone: false,
+        myList: {
+            id: listIdValue
+        }
+    }
+
+    fetch("http://localhost:8080/Task/create", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+        .then(response => {
+            console.log(`Task ID:${data.id} created`);
+            taskDescValue.value = "";
+            alertMsgAdd.setAttribute("class", "alert alert-success");
+            alertMsgAdd.innerHTML = "Your task has been added!";
+            setTimeout(() => {
+                alertMsgAdd.removeAttribute("class");
+                alertMsgAdd.innerHTML = "";
+            }, 2000);
+        })
+        .catch(err => console.error(`Stopppppp! ${err}`));
+
 }
 
 const printListToScreen = (num, description, isDone) => {
@@ -78,11 +129,11 @@ const readList = () => {
         }).catch((err) => {
             console.error(err);
             clearDisplayList();
-            alertMsg.setAttribute("class", "alert alert-danger");
-            alertMsg.innerHTML = "Please select a list!";
+            alertMsgRead.setAttribute("class", "alert alert-danger");
+            alertMsgRead.innerHTML = "Please select a list!";
             setTimeout(() => {
-                alertMsg.removeAttribute("class");
-                alertMsg.innerHTML = "";
+                alertMsgRead.removeAttribute("class");
+                alertMsgRead.innerHTML = "";
             }, 2000);
         })
 }
@@ -120,11 +171,37 @@ const updateExistingLists = (listName, listId) => {
     listOption.value = `${listId}`;
     listOption.appendChild(text);
     let listOption1 = listOption.cloneNode(true);
+    let listOption2 = listOption.cloneNode(true);
     selectListAddTask.appendChild(listOption);
     selectList.appendChild(listOption1);
-    console.log(listOption)
-    console.log("--------------")
-    console.log(listOption1)
+    selectListDelete.appendChild(listOption2);
 }
+
+const deleteList = () => {
+    const idValue = selectListDelete.value;
+    let data = {
+        id: idValue
+    }
+
+    fetch(`http://localhost:8080/List/delete/${data.id}`, {
+        method: "DELETE",
+        body: JSON.stringify(data),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+        .then(response => {
+            console.log(`List ID:${data.id} deleted`);
+            inputGarageId.value = "";
+            alertMsgRead.setAttribute("class", "alert alert-info");
+            alertMsgRead.innerHTML = "Your to-do list has been deleted!";
+            setTimeout(() => {
+                alertMsgRead.removeAttribute("class");
+                alertMsgRead.innerHTML = "";
+            }, 2000);
+        })
+        .catch(err => console.error(`Stopppppp! ${err}`));
+}
+
 
 getAllList();
