@@ -2,6 +2,7 @@
 
 const displayList = document.querySelector("#displayList");
 const selectedList = document.querySelector("#selectList");
+
 const createTab = document.querySelector("#create-tab");
 const readTab = document.querySelector("#read-tab");
 const updateTab = document.querySelector("#update-tab");
@@ -9,14 +10,40 @@ const deleteTab = document.querySelector("#delete-tab");
 
 console.log(selectedList);
 
-const printListToScreen = (description, isDone) => {
+const createList = () => {
+
+    const nameValue = inputName.value;
+
+    let data = {
+        name: nameValue
+    }
+
+    fetch("http://localhost:8080/List/create", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+        .then(response => {
+            console.log(`${data.name} created`);
+            inputName.value = "";
+        })
+        .catch(err => console.error(`Stopppppp! ${err}`));
+}
+
+const printListToScreen = (num, description, isDone) => {
     let listResult = document.createElement("p");
-    let text = document.createTextNode(`${description}`);
+    let text = document.createTextNode(`${num}. ${description}`);
     if (isDone == true) {
         listResult.style = "text-decoration: line-through";
     } else { };
     listResult.appendChild(text);
     displayList.appendChild(listResult);
+}
+
+const clearDisplayList = () => {
+    displayList.innerHTML = "";
 }
 
 const retrieveData = () => {
@@ -40,7 +67,8 @@ const retrieveData = () => {
                     console.log(infoList.taskList); // key - return array
                     for (let task of infoList.taskList) {
                         console.log(task.description);
-                        printListToScreen(task.description, task.isDone);
+                        let num = infoList.taskList.indexOf(task) + 1;
+                        printListToScreen(num, task.description, task.isDone);
                     }
                 })
             }
