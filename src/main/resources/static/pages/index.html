@@ -40,20 +40,21 @@
                 <div class="tab-pane fade" id="read" role="tabpanel" aria-labelledby="read-tab">
                     <div class="container">
                         <div class="row justify-content-md-center">
-                            <form class="form-inline">
+                            <form class="form-inline" onsubmit="return false">
                                 <label class="sr-only" for="selectList">Select which list you want to view</label>
                                 <select class="custom-select my-1 mr-sm-2" id="selectList" style="width: 400px;">
-                                    <option value="0" selected>Select a to-do list...</option>
+                                    <option value="hello" selected>Select a to-do list...</option>
                                     <option value="1">List</option>
                                 </select>
 
-                                <button type="submit" class="btn btn-primary my-1" onclick="">Show</button>
+                                <button type="submit" class="btn btn-primary my-1"
+                                    onclick="retrieveData()">Show</button>
                             </form>
 
                         </div>
                         <div class="row justify-content-md-center">
                             <div id="displayList">
-                                <p>example list output</p>
+                                <p>List output:</p>
                             </div>
                         </div>
 

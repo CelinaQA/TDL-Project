@@ -1,7 +1,11 @@
 'use strict';
 
 const displayList = document.querySelector("#displayList");
-const selectedList = document.querySelector("#selectList option:checked");
+const selectedList = document.querySelector("#selectList");
+const createTab = document.querySelector("#create-tab");
+const readTab = document.querySelector("#read-tab");
+const updateTab = document.querySelector("#update-tab");
+const deleteTab = document.querySelector("#delete-tab");
 
 console.log(selectedList);
 
@@ -20,6 +24,8 @@ const retrieveData = () => {
     let data = {
         id: idValue
     }
+    console.log(data);
+
     fetch(`http://localhost:8080/List/read/${data.id}`)
         .then((response) => {
             if (response.status !== 200) {
