@@ -12,13 +12,12 @@ const selectListUpdate = document.querySelector("#selectListUpdate");
 const alertMsgCreate = document.querySelector("#onCreation");
 const alertMsgAdd = document.querySelector("#onAddition");
 const alertMsgRead = document.querySelector("#invalidSelection");
-const alertMsgUpdate = document.querySelector("#invalidUpdate");
+const alertMsgUpdateSelect = document.querySelector("#invalidUpdate");
+const alertMsgUpdate = document.querySelector("#onUpdate");
 const alertMsgDelete = document.querySelector("#onDeletion");
-
 
 const newListName = document.querySelector("#newListName");
 const newTaskDesc = document.querySelector("#newTaskDesc");
-
 
 const createTab = document.querySelector("#create-tab");
 const readTab = document.querySelector("#read-tab");
@@ -126,7 +125,7 @@ const readList = () => {
             } else {
                 console.log(`response is OK (200)`);
                 //json-ify it (which returns a promise)
-                displayList.innerHTML = "";
+                clearDisplayList();
                 response.json().then((infoList) => {
                     console.log(infoList);
                     console.log(infoList.taskList); // key - return array
@@ -197,6 +196,45 @@ const updateExistingLists = (listName, listId) => {
 //=======================================================================
 // UPDATE
 //=======================================================================
+const clearUpdateDisplayList = () => {
+    displayUpdateList.innerHTML = "";
+}
+
+const printUpdateTasks = (num, description, isDone, taskId) => {
+
+    let divRow = document.createElement("div");
+    divRow.setAttribute("class", "row justify-content-md-center")
+    divRow.setAttribute("style", "margin-bottom: 7px;")
+
+    let divForm = document.createElement("div");
+    divForm.setAttribute("class", "form-check form-check-inline")
+
+    let listResult = document.createElement("input");
+    listResult.setAttribute("class", "form-control");
+    listResult.setAttribute("id", `taskDesc-${taskId}`);
+    listResult.setAttribute("type", "text");
+    listResult.setAttribute("value", `${description}`);
+    listResult.setAttribute("style", `width: 400px;`);
+
+    let text = document.createTextNode(`${num}. ${description}`);
+
+
+    let taskCheck = document.createElement("input");
+    taskCheck.setAttribute("class", "form-check-input");
+    taskCheck.setAttribute("id", `taskCheck-${taskId}`);
+    taskCheck.setAttribute("type", "checkbox");
+
+    if (isDone == true) {
+
+        taskCheck.checked = true;
+    } else { };
+
+    listResult.appendChild(text);
+    displayUpdateList.appendChild(divRow);
+    divRow.appendChild(divForm);
+    divForm.appendChild(taskCheck);
+    divForm.appendChild(listResult);
+}
 
 const readUpdateList = () => {
     const idValue = selectListUpdate.value;
@@ -213,70 +251,108 @@ const readUpdateList = () => {
             } else {
                 console.log(`response is OK (200)`);
                 //json-ify it (which returns a promise)
-                displayUpdateList.innerHTML = "";
+                clearUpdateDisplayList();
                 response.json().then((infoList) => {
                     console.log(infoList);
                     console.log(infoList.taskList); // key - return array
                     for (let task of infoList.taskList) {
                         console.log(task.description);
                         let num = infoList.taskList.indexOf(task) + 1;
-                        printUpdateTasks(num, task.description, task.isDone);
+                        printUpdateTasks(num, task.description, task.isDone, task.id);
                     }
                 })
             }
         }).catch((err) => {
             console.error(err);
             clearDisplayList();
-            alertMsgUpdate.setAttribute("class", "alert alert-danger");
-            alertMsgUpdate.innerHTML = "Please select a list!";
+            alertMsgUpdateSelect.setAttribute("class", "alert alert-danger");
+            alertMsgUpdateSelect.innerHTML = "Please select a list!";
+            setTimeout(() => {
+                alertMsgUpdateSelect.removeAttribute("class");
+                alertMsgUpdateSelect.innerHTML = "";
+            }, 2000);
+        })
+}
+
+const updateListTasks1 = () => {
+
+    const idValue = selectListUpdate.value;
+    let data = {
+        id: idValue
+    }
+    console.log(data);
+
+    fetch(`http://localhost:8080/List/read/${data.id}`)
+        .then((response) => {
+            if (response.status !== 200) {
+                console.log(response);
+                throw new Error("I don't have a status of 200");
+            } else {
+                console.log(`response is OK (200)`);
+                //json-ify it (which returns a promise)
+                response.json().then((infoList) => {
+                    console.log(infoList);
+                    console.log(infoList.taskList); // key - return array
+                    for (let task of infoList.taskList) {
+                        console.log(task.description);
+                        updateListTasks2(task.id);
+                    }
+                })
+            }
+        }).catch((err) => {
+            console.error(err);
+            clearDisplayList();
+            alertMsgUpdateSelect.setAttribute("class", "alert alert-danger");
+            alertMsgUpdateSelect.innerHTML = "Please select a list!";
+            setTimeout(() => {
+                alertMsgUpdateSelect.removeAttribute("class");
+                alertMsgUpdateSelect.innerHTML = "";
+            }, 2000);
+        })
+}
+
+const updateListTasks2 = (taskId) => {
+    const taskCheck = document.getElementById(`taskCheck-${taskId}`);
+    const taskDesc = document.getElementById(`taskDesc-${taskId}`);
+    const listId = selectListUpdate.value;
+
+    let data = {
+        description: `${taskDesc.value}`,
+        isDone: taskCheck.checked,
+        myList: {
+            id: listId
+        }
+    }
+
+    console.log(data);
+
+    fetch(`http://localhost:8080/Task/update/${taskId}`, {
+        method: "PUT",
+        body: JSON.stringify(data),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+        .then(response => {
+            console.log(`Task ID:${taskId} updated`);
+            clearUpdateDisplayList();
+            alertMsgUpdate.setAttribute("class", "alert alert-success");
+            alertMsgUpdate.innerHTML = "Your list has been updated!";
             setTimeout(() => {
                 alertMsgUpdate.removeAttribute("class");
                 alertMsgUpdate.innerHTML = "";
             }, 2000);
         })
-}
-
-const printUpdateTasks = (num, description, isDone) => {
-
-    let divRow = document.createElement("div");
-    divRow.setAttribute("class", "row justify-content-md-center")
-
-    let divForm = document.createElement("div");
-    divForm.setAttribute("class", "form-check form-check-inline")
-
-    let listResult = document.createElement("input");
-    listResult.setAttribute("class", "form-control");
-    listResult.setAttribute("type", "text");
-    listResult.setAttribute("value", `${description}`);
-    listResult.setAttribute("style", `width: 400px;`);
-
-    let text = document.createTextNode(`${num}. ${description}`);
-
-    let taskCheck = document.createElement("input");
-    taskCheck.setAttribute("class", "form-check-input");
-    taskCheck.setAttribute("type", "checkbox");
-
-    if (isDone == true) {
-
-        taskCheck.checked = true;
-    } else { };
-
-    listResult.appendChild(text);
-    displayUpdateList.appendChild(divRow);
-    divRow.appendChild(divForm);
-    divForm.appendChild(taskCheck);
-    divForm.appendChild(listResult);
-}
-
-const clearUpdateDisplayList = () => {
-    displayUpdateList.innerHTML = "";
-}
-
-const OnCheckStyle = () => {
-
-}
-
-const updateListTasks = (listName, listId) => {
+        .catch((err) => {
+            console.error(err);
+            clearUpdateDisplayList();
+            alertMsgUpdate.setAttribute("class", "alert alert-danger");
+            alertMsgUpdate.innerHTML = "Update failed!";
+            setTimeout(() => {
+                alertMsgUpdate.removeAttribute("class");
+                alertMsgUpdate.innerHTML = "";
+            }, 2000);
+        })
 
 }
 
