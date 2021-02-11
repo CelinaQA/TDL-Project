@@ -1,15 +1,18 @@
 'use strict';
 
 const displayList = document.querySelector("#displayList");
+const displayUpdateList = document.querySelector("#displayUpdateList");
 
 const selectList = document.querySelector("#selectList");
 const selectListAddTask = document.querySelector("#selectListAddTask");
 const selectListDelete = document.querySelector("#selectListDelete");
+const selectListUpdate = document.querySelector("#selectListUpdate");
 
 
 const alertMsgCreate = document.querySelector("#onCreation");
 const alertMsgAdd = document.querySelector("#onAddition");
 const alertMsgRead = document.querySelector("#invalidSelection");
+const alertMsgUpdate = document.querySelector("#invalidUpdate");
 const alertMsgDelete = document.querySelector("#onDeletion");
 
 
@@ -23,6 +26,10 @@ const updateTab = document.querySelector("#update-tab");
 const deleteTab = document.querySelector("#delete-tab");
 
 console.log(selectList);
+
+//=======================================================================
+// CREATE
+//=======================================================================
 
 const createList = () => {
 
@@ -76,7 +83,7 @@ const addTaskToList = () => {
             console.log(`Task ID:${data.id} created`);
             taskDescValue.value = "";
             alertMsgAdd.setAttribute("class", "alert alert-success");
-            alertMsgAdd.innerHTML = "Your task has been added!";
+            alertMsgAdd.innerHTML = "Your task has been created!";
             setTimeout(() => {
                 alertMsgAdd.removeAttribute("class");
                 alertMsgAdd.innerHTML = "";
@@ -85,6 +92,10 @@ const addTaskToList = () => {
         .catch(err => console.error(`Stopppppp! ${err}`));
 
 }
+
+//=======================================================================
+// READ
+//=======================================================================
 
 const printListToScreen = (num, description, isDone) => {
     let listResult = document.createElement("p");
@@ -138,6 +149,10 @@ const readList = () => {
         })
 }
 
+//=======================================================================
+// DROPDOWN LISTS UPDATE METHOD
+//=======================================================================
+
 const getAllList = () => {
     fetch(`http://localhost:8080/List/readAll`)
         .then((response) => {
@@ -172,10 +187,102 @@ const updateExistingLists = (listName, listId) => {
     listOption.appendChild(text);
     let listOption1 = listOption.cloneNode(true);
     let listOption2 = listOption.cloneNode(true);
+    let listOption3 = listOption.cloneNode(true);
     selectListAddTask.appendChild(listOption);
     selectList.appendChild(listOption1);
     selectListDelete.appendChild(listOption2);
+    selectListUpdate.appendChild(listOption3);
 }
+
+//=======================================================================
+// UPDATE
+//=======================================================================
+
+const readUpdateList = () => {
+    const idValue = selectListUpdate.value;
+    let data = {
+        id: idValue
+    }
+    console.log(data);
+
+    fetch(`http://localhost:8080/List/read/${data.id}`)
+        .then((response) => {
+            if (response.status !== 200) {
+                console.log(response);
+                throw new Error("I don't have a status of 200");
+            } else {
+                console.log(`response is OK (200)`);
+                //json-ify it (which returns a promise)
+                displayUpdateList.innerHTML = "";
+                response.json().then((infoList) => {
+                    console.log(infoList);
+                    console.log(infoList.taskList); // key - return array
+                    for (let task of infoList.taskList) {
+                        console.log(task.description);
+                        let num = infoList.taskList.indexOf(task) + 1;
+                        printUpdateTasks(num, task.description, task.isDone);
+                    }
+                })
+            }
+        }).catch((err) => {
+            console.error(err);
+            clearDisplayList();
+            alertMsgUpdate.setAttribute("class", "alert alert-danger");
+            alertMsgUpdate.innerHTML = "Please select a list!";
+            setTimeout(() => {
+                alertMsgUpdate.removeAttribute("class");
+                alertMsgUpdate.innerHTML = "";
+            }, 2000);
+        })
+}
+
+const printUpdateTasks = (num, description, isDone) => {
+
+    let divRow = document.createElement("div");
+    divRow.setAttribute("class", "row justify-content-md-center")
+
+    let divForm = document.createElement("div");
+    divForm.setAttribute("class", "form-check form-check-inline")
+
+    let listResult = document.createElement("input");
+    listResult.setAttribute("class", "form-control");
+    listResult.setAttribute("type", "text");
+    listResult.setAttribute("value", `${description}`);
+    listResult.setAttribute("style", `width: 400px;`);
+
+    let text = document.createTextNode(`${num}. ${description}`);
+
+    let taskCheck = document.createElement("input");
+    taskCheck.setAttribute("class", "form-check-input");
+    taskCheck.setAttribute("type", "checkbox");
+
+    if (isDone == true) {
+
+        taskCheck.checked = true;
+    } else { };
+
+    listResult.appendChild(text);
+    displayUpdateList.appendChild(divRow);
+    divRow.appendChild(divForm);
+    divForm.appendChild(taskCheck);
+    divForm.appendChild(listResult);
+}
+
+const clearUpdateDisplayList = () => {
+    displayUpdateList.innerHTML = "";
+}
+
+const OnCheckStyle = () => {
+
+}
+
+const updateListTasks = (listName, listId) => {
+
+}
+
+//=======================================================================
+// DELETE
+//=======================================================================
 
 const deleteList = () => {
     const idValue = selectListDelete.value;
@@ -203,5 +310,9 @@ const deleteList = () => {
         .catch(err => console.error(`Stopppppp! ${err}`));
 }
 
+
+//=======================================================================
+// UPDATE DROPDOWN LISTS
+//=======================================================================
 
 getAllList();
