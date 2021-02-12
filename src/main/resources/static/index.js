@@ -27,7 +27,55 @@ const readTab = document.querySelector("#read-tab");
 const updateTab = document.querySelector("#update-tab");
 const deleteTab = document.querySelector("#delete-tab");
 
-console.log(selectList);
+
+//=======================================================================
+// DROPDOWN LISTS UPDATE METHOD
+//=======================================================================
+
+const getAllList = () => {
+    fetch(`http://localhost:8080/List/readAll`)
+        .then((response) => {
+            if (response.status !== 200) {
+                console.log(response);
+                throw new Error("I don't have a status of 200");
+            } else {
+                //json-ify it (which returns a promise)
+                response.json().then((infoList) => {
+                    console.log(infoList); // key - return array
+                    selectList.innerHTML = "";
+                    selectListAddTask.innerHTML = "";
+                    selectListDelete.innerHTML = "";
+                    selectListDeleteTask1.innerHTML = "";
+                    selectListUpdate.innerHTML = "";
+                    for (let list of infoList) {
+                        console.log(list.name);
+                        let listName = list.name;
+                        let listId = list.id;
+                        updateExistingLists(listName, listId);
+                    }
+                    console.log(`Dropdown lists updated`);
+                })
+            }
+        }).catch((err) => {
+            console.error(err);
+        })
+}
+
+const updateExistingLists = (listName, listId) => {
+    let text = document.createTextNode(listName);
+    let listOption = document.createElement("option")
+    listOption.value = `${listId}`;
+    listOption.appendChild(text);
+    let listOption1 = listOption.cloneNode(true);
+    let listOption2 = listOption.cloneNode(true);
+    let listOption3 = listOption.cloneNode(true);
+    let listOption4 = listOption.cloneNode(true);
+    selectListAddTask.appendChild(listOption);
+    selectList.appendChild(listOption1);
+    selectListDelete.appendChild(listOption2);
+    selectListUpdate.appendChild(listOption3);
+    selectListDeleteTask1.appendChild(listOption4);
+}
 
 //=======================================================================
 // CREATE
@@ -112,11 +160,6 @@ const addTaskToList = () => {
         });
 }
 
-const createListButton = async () => {
-    createList();
-    getAllList();
-}
-
 //=======================================================================
 // READ
 //=======================================================================
@@ -171,55 +214,6 @@ const readList = () => {
                 alertMsgRead.innerHTML = "";
             }, 2000);
         })
-}
-
-//=======================================================================
-// DROPDOWN LISTS UPDATE METHOD
-//=======================================================================
-
-const getAllList = () => {
-    fetch(`http://localhost:8080/List/readAll`)
-        .then((response) => {
-            if (response.status !== 200) {
-                console.log(response);
-                throw new Error("I don't have a status of 200");
-            } else {
-                //json-ify it (which returns a promise)
-                response.json().then((infoList) => {
-                    console.log(infoList); // key - return array
-                    selectList.innerHTML = "";
-                    selectListAddTask.innerHTML = "";
-                    selectListDelete.innerHTML = "";
-                    selectListDeleteTask1.innerHTML = "";
-                    selectListUpdate.innerHTML = "";
-                    for (let list of infoList) {
-                        console.log(list.name);
-                        let listName = list.name;
-                        let listId = list.id;
-                        updateExistingLists(listName, listId);
-                    }
-                    console.log(`Dropdown lists updated`);
-                })
-            }
-        }).catch((err) => {
-            console.error(err);
-        })
-}
-
-const updateExistingLists = (listName, listId) => {
-    let text = document.createTextNode(listName);
-    let listOption = document.createElement("option")
-    listOption.value = `${listId}`;
-    listOption.appendChild(text);
-    let listOption1 = listOption.cloneNode(true);
-    let listOption2 = listOption.cloneNode(true);
-    let listOption3 = listOption.cloneNode(true);
-    let listOption4 = listOption.cloneNode(true);
-    selectListAddTask.appendChild(listOption);
-    selectList.appendChild(listOption1);
-    selectListDelete.appendChild(listOption2);
-    selectListUpdate.appendChild(listOption3);
-    selectListDeleteTask1.appendChild(listOption4);
 }
 
 //=======================================================================
