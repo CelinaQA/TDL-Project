@@ -112,6 +112,11 @@ const addTaskToList = () => {
         });
 }
 
+const createListButton = async () => {
+    createList();
+    getAllList();
+}
+
 //=======================================================================
 // READ
 //=======================================================================
@@ -179,7 +184,6 @@ const getAllList = () => {
                 console.log(response);
                 throw new Error("I don't have a status of 200");
             } else {
-                console.log(`response is OK (200)`);
                 //json-ify it (which returns a promise)
                 response.json().then((infoList) => {
                     console.log(infoList); // key - return array
@@ -194,13 +198,13 @@ const getAllList = () => {
                         let listId = list.id;
                         updateExistingLists(listName, listId);
                     }
+                    console.log(`Dropdown lists updated`);
                 })
             }
         }).catch((err) => {
             console.error(err);
         })
 }
-
 
 const updateExistingLists = (listName, listId) => {
     let text = document.createTextNode(listName);
