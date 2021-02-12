@@ -45,16 +45,18 @@
                                     <input class="form-control" id="newListName" type="text"
                                         placeholder="Insert new list name..." style="width: 400px;">
 
-                                    <button type="submit" class="btn btn-success my-1" onclick="createList()"
-                                        style="margin-left: 7px;">Submit</button>
+                                    <button type="submit" class="btn btn-success my-1"
+                                        onclick="createList();getAllList();" style="margin-left: 7px;">Submit</button>
                                 </div>
                             </form>
                         </div>
-                        <div class="" id="onCreation"></div>
+                        <div class="row justify-content-md-center">
+                            <div class="" id="onCreation"></div>
+                        </div>
                         <hr>
                         <h5 style="margin-bottom: 20px; margin-top: 30px;">Add a task to your to-do list:</h5>
-                        <div class="row justify-content-md-center">
-                            <form onsubmit="return false">
+                        <div class="row justify-content-md-center" style="margin-bottom: 20px;">
+                            <form onsubmit=" return false">
                                 <div class="form-group">
                                     <label class="sr-only" for="selectListAddTask">Select which list you want to add a
                                         task
@@ -65,7 +67,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label class="sr-only" for="newListName">Task description</label>
+                                    <label class="sr-only" for="newTaskDesc">Task description</label>
                                     <input class="form-control" id="newTaskDesc" type="text"
                                         placeholder="Task description..." style="width: 450px;">
                                 </div>
@@ -73,7 +75,9 @@
                                     onclick="addTaskToList()">Submit</button>
                             </form>
                         </div>
-                        <div class="" id="onAddition"></div>
+                        <div class="row justify-content-md-center">
+                            <div class="" id="onAddition"></div>
+                        </div>
                     </div>
                 </div>
                 <div class="tab-pane fade" id="read" role="tabpanel" aria-labelledby="read-tab">
@@ -125,7 +129,9 @@
                         <hr>
                         <button type="submit" class="btn btn-info my-1" onclick="updateListTasks1()">Save
                             changes</button>
-                        <div class="" id="onUpdate"></div>
+                        <div class="row justify-content-md-center" style="margin-top: 20px;">
+                            <div class="" id="onUpdate"></div>
+                        </div>
                     </div>
                 </div>
                 <div class="tab-pane fade" id="delete" role="tabpanel" aria-labelledby="delete-tab">
@@ -139,13 +145,40 @@
                                     <option value="noValue" selected>Select a to-do list...</option>
                                 </select>
 
-                                <button type="submit" class="btn btn-danger my-1" onclick="deleteList()">Delete</button>
+                                <button type="submit" class="btn btn-danger my-1"
+                                    onclick="deleteList();getAllList();">Delete</button>
                             </form>
                         </div>
                         <div class="row justify-content-md-center">
-                            <div class="" id="onDeletion"></div>
+                            <div class="" id="onDeleteList"></div>
                         </div>
                         <hr>
+                        <h5 style="margin-bottom: 20px; margin-top: 30px;">Delete a task from your to-do list:</h5>
+                        <div class="row justify-content-md-center" style="margin-bottom: 20px;">
+                            <form onsubmit="return false">
+                                <div class="form-group">
+                                    <label class="sr-only" for="selectListDeleteTask1">Select which list you want to
+                                        delete
+                                        a task from</label>
+                                    <select class="custom-select my-1 mr-sm-2" id="selectListDeleteTask1"
+                                        style="width: 450px;" onchange="getListTask()">
+                                        <option value="noValue" selected>Select a to-do list...</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="sr-only" for="selectListDeleteTask2">Select which task you want to
+                                        delete</label>
+                                    <select class="custom-select my-1 mr-sm-2" id="selectListDeleteTask2"
+                                        style="width: 450px;">
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-danger my-1"
+                                    onclick="deleteListTask()">Delete</button>
+                            </form>
+                        </div>
+                        <div class="row justify-content-md-center">
+                            <div class="" id="onDeleteTask"></div>
+                        </div>
                     </div>
                 </div>
             </div>
