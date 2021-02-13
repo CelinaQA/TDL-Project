@@ -56,7 +56,7 @@ public class TDLSiteTest {
 	public void createListTest() throws InterruptedException {
 		// GIVEN: that I can access my TDL Web Application
 		driver.get(url);
-		//driver.manage().timeouts().implicitlyWait(100, TimeUnit.MILLISECONDS);
+		// driver.manage().timeouts().implicitlyWait(100, TimeUnit.MILLISECONDS);
 
 		// WHEN: I navigate to the create tab
 		website.navCreateTab();
@@ -67,9 +67,9 @@ public class TDLSiteTest {
 		// THEN: I should see the list was created successfully
 		String result = "";
 		synchronized (result) {
-                result.wait(1000);
-                result = website.createPage.createListStatus();     
-        }	
+			result.wait(1000);
+			result = website.createPage.createListStatus();
+		}
 
 		// Assertion
 		assertEquals("Your to-do list has been created!", result);
@@ -90,9 +90,9 @@ public class TDLSiteTest {
 		// THEN: I should see the task was added successfully
 		String result = "";
 		synchronized (result) {
-                result.wait(1000);
-                result = website.createPage.addTaskStatus();     
-        }	
+			result.wait(1000);
+			result = website.createPage.addTaskStatus();
+		}
 
 		// Assertion
 		assertEquals("Your task has been created!", result);
@@ -119,25 +119,88 @@ public class TDLSiteTest {
 	}
 
 	@Test
+	@Order(4)
 	public void updateTaskTest() throws InterruptedException {
+		// GIVEN: that I can access my TDL Web Application
+		driver.get(url);
+		driver.manage().timeouts().implicitlyWait(1500, TimeUnit.MILLISECONDS);
 
+		// WHEN: I navigate to the update list tab
+		website.navUpdateTab();
+
+		// AND: I update a task in a list
+		website.updatePage.updateTask("My updated task description");
+
+		// THEN: I should see the task was updated successfully
+		String status = "";
+		synchronized (status) {
+			status.wait(1000);
+			status = website.updatePage.updateTaskStatus();
+		}
+
+		// AND: See my updated task description
+		website.navReadTab();
+		website.readPage.readList();
+		String result = website.readPage.listResult();
+
+		// Assertion
+		assertEquals("Your list has been updated!", status);
+		assertEquals("1. My updated task description", result);
 	}
 
 	@Test
-	public void deleteListTest() throws InterruptedException {
-
-	}
-
-	@Test
+	@Order(5)
 	public void deleteTaskTest() throws InterruptedException {
+		// GIVEN: that I can access my TDL Web Application
+		driver.get(url);
+		
+		// AND: I have a task in list two
+		website.navCreateTab();
+		website.deletePage.createTaskToDelete("Delete me");
 
+		// WHEN: I navigate to the delete tab
+		website.navDeleteTab();
+
+		// AND: I delete a task in list two
+		website.deletePage.deleteTask();
+
+		// THEN: I should see the task was deleted successfully
+		String result = "";
+		synchronized (result) {
+			result.wait(1000);
+			result = website.deletePage.deleteTaskStatus();
+		}
+
+		// Assertion
+		assertEquals("Your task has been deleted!", result);
+	}
+
+	@Test
+	@Order(6)
+	public void deleteListTest() throws InterruptedException {
+		// GIVEN: that I can access my TDL Web Application
+		driver.get(url);
+
+		// WHEN: I navigate to the delete tab
+		website.navDeleteTab();
+
+		// AND: I delete a list
+		website.deletePage.deleteList();
+
+		// THEN: I should see the list was created successfully
+		String result = "";
+		synchronized (result) {
+			result.wait(1000);
+			result = website.deletePage.deleteListStatus();
+		}
+
+		// Assertion
+		assertEquals("Your to-do list has been deleted!", result);
 	}
 
 	@AfterAll
 	public static void afterAll() {
-
 		driver.quit();
-
 	}
 
 }
