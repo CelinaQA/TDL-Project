@@ -1,5 +1,7 @@
 package com.qa.demo.selenium;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,10 +12,11 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.PageFactory;
+import org.springframework.test.context.ActiveProfiles;
 
-import com.qa.demo.demosite.DemoSitePortal;
-import com.qa.demo.demosite.child.DemoLogin;
+import com.qa.demo.selenium.TDLSite.TDLPortal;
 
+@ActiveProfiles(profiles = "test")
 public class TDLSiteTest {
 
 	private static RemoteWebDriver driver;
@@ -48,9 +51,19 @@ public class TDLSiteTest {
 
 		// GIVEN: that I can access http://thedemosite.co.uk/
 		driver.get(url);
+		TDLPortal website = PageFactory.initElements(driver, TDLPortal.class);
 
-		DemoSitePortal website = PageFactory.initElements(driver, DemoSitePortal.class);
-		DemoLogin loginPage = PageFactory.initElements(driver, DemoLogin.class);
+		// WHEN: I navigate to the create tab
+		website.navCreateTab();
+
+		// AND: I create a list
+		website.createPage.createList("My list");
+
+		// THEN: I should see the list was created successfully
+		String result = website.createPage.createListStatus();
+
+		// Assertion
+		assertEquals("Your to-do list has been created!", result);
 
 	}
 
