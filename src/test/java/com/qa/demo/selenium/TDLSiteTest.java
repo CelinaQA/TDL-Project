@@ -49,7 +49,7 @@ public class TDLSiteTest {
 	@Test
 	public void createListTest() throws InterruptedException {
 
-		// GIVEN: that I can access http://thedemosite.co.uk/
+		// GIVEN: that I can access my TDL Web Application
 		driver.get(url);
 		TDLPortal website = PageFactory.initElements(driver, TDLPortal.class);
 
@@ -69,7 +69,21 @@ public class TDLSiteTest {
 
 	@Test
 	public void createTaskTest() throws InterruptedException {
+		// GIVEN: that I can access my TDL Web Application
+		driver.get(url);
+		TDLPortal website = PageFactory.initElements(driver, TDLPortal.class);
 
+		// WHEN: I navigate to the create tab
+		website.navCreateTab();
+
+		// AND: I add a task
+		website.createPage.addTask("My task description");
+		
+		// THEN: I should see the task was added successfully
+		String result = website.createPage.addTaskStatus();
+
+		// Assertion
+		assertEquals("Your task has been created!", result);
 	}
 
 	@Test

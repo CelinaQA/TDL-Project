@@ -37,5 +37,9 @@ public class createTab {
 		this.inputTaskDesc.sendKeys(taskDesc);
 		submitTaskBtn.click();
 	}
+	
+	public String addTaskStatus() {
+		return addTaskStatus.getText();
+	}
 
 }
