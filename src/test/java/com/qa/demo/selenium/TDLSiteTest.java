@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -19,6 +20,7 @@ import com.qa.demo.selenium.TDLSite.TDLPortal;
 @ActiveProfiles(profiles = "test")
 public class TDLSiteTest {
 
+	public TDLPortal website = PageFactory.initElements(driver, TDLPortal.class);
 	private static RemoteWebDriver driver;
 	private final String url = "http://127.0.0.1:8080/index.html";
 
@@ -43,15 +45,12 @@ public class TDLSiteTest {
 		// system.property
 		System.setProperty("webdriver.chrome.driver", "src/main/resources/drivers/chrome/chromedriver.exe");
 		driver = new ChromeDriver(chromeCfg());
-
 	}
 
 	@Test
 	public void createListTest() throws InterruptedException {
-
 		// GIVEN: that I can access my TDL Web Application
 		driver.get(url);
-		TDLPortal website = PageFactory.initElements(driver, TDLPortal.class);
 
 		// WHEN: I navigate to the create tab
 		website.navCreateTab();
@@ -64,21 +63,19 @@ public class TDLSiteTest {
 
 		// Assertion
 		assertEquals("Your to-do list has been created!", result);
-
 	}
 
 	@Test
 	public void createTaskTest() throws InterruptedException {
 		// GIVEN: that I can access my TDL Web Application
 		driver.get(url);
-		TDLPortal website = PageFactory.initElements(driver, TDLPortal.class);
 
 		// WHEN: I navigate to the create tab
 		website.navCreateTab();
 
 		// AND: I add a task
 		website.createPage.addTask("My task description");
-		
+
 		// THEN: I should see the task was added successfully
 		String result = website.createPage.addTaskStatus();
 
@@ -88,7 +85,21 @@ public class TDLSiteTest {
 
 	@Test
 	public void readListTest() throws InterruptedException {
+		// GIVEN: that I can access my TDL Web Application
+		driver.get(url);
+		driver.manage().timeouts().implicitlyWait(1500, TimeUnit.MILLISECONDS);
 
+		// WHEN: I navigate to the read list tab
+		website.navReadTab();
+
+		// AND: I select a list to read
+		website.readPage.readList();
+
+		// THEN: I should be able to see the task in my list
+		String result = website.readPage.listResult();
+
+		// Assertion
+		assertEquals("1. My task description", result);
 	}
 
 	@Test
