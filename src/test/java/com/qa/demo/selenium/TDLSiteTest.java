@@ -8,7 +8,10 @@ import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -18,6 +21,7 @@ import org.springframework.test.context.ActiveProfiles;
 import com.qa.demo.selenium.TDLSite.TDLPortal;
 
 @ActiveProfiles(profiles = "test")
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class TDLSiteTest {
 
 	public TDLPortal website = PageFactory.initElements(driver, TDLPortal.class);
@@ -48,9 +52,11 @@ public class TDLSiteTest {
 	}
 
 	@Test
+	@Order(1)
 	public void createListTest() throws InterruptedException {
 		// GIVEN: that I can access my TDL Web Application
 		driver.get(url);
+		//driver.manage().timeouts().implicitlyWait(100, TimeUnit.MILLISECONDS);
 
 		// WHEN: I navigate to the create tab
 		website.navCreateTab();
@@ -59,13 +65,18 @@ public class TDLSiteTest {
 		website.createPage.createList("My list");
 
 		// THEN: I should see the list was created successfully
-		String result = website.createPage.createListStatus();
+		String result = "";
+		synchronized (result) {
+                result.wait(1000);
+                result = website.createPage.createListStatus();     
+        }	
 
 		// Assertion
 		assertEquals("Your to-do list has been created!", result);
 	}
 
 	@Test
+	@Order(2)
 	public void createTaskTest() throws InterruptedException {
 		// GIVEN: that I can access my TDL Web Application
 		driver.get(url);
@@ -77,13 +88,18 @@ public class TDLSiteTest {
 		website.createPage.addTask("My task description");
 
 		// THEN: I should see the task was added successfully
-		String result = website.createPage.addTaskStatus();
+		String result = "";
+		synchronized (result) {
+                result.wait(1000);
+                result = website.createPage.addTaskStatus();     
+        }	
 
 		// Assertion
 		assertEquals("Your task has been created!", result);
 	}
 
 	@Test
+	@Order(3)
 	public void readListTest() throws InterruptedException {
 		// GIVEN: that I can access my TDL Web Application
 		driver.get(url);
@@ -100,16 +116,6 @@ public class TDLSiteTest {
 
 		// Assertion
 		assertEquals("1. My task description", result);
-	}
-
-	@Test
-	public void readTaskTest() throws InterruptedException {
-
-	}
-
-	@Test
-	public void updateListTest() throws InterruptedException {
-
 	}
 
 	@Test
