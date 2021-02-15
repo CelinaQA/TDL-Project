@@ -94,8 +94,9 @@ SonarQube was used for static analysis to review the overall quality of the code
 ## Deployment
 This TDL Web Application runs on http://127.0.0.1:8080/index.html.  The .war file must first be executed in the command-line before it can be accessed using the following command: 
 ```
-$ java -jar 
+$ java -jar celina-TDL-0.0.1-SNAPSHOT.jar
 ```
+After the execution of the above command, click on the URL provided to access the TDL Web Application.  Before you can create a task, you must first create a list for that task to be assigned to.  Navigate between the create, read, update and delete tabs to access the different functions available.  Refresh the page after creating/updating/deleting a list or task to update the dropdown lists on the page. 
 
 ## Built With
 
