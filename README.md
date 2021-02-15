@@ -26,9 +26,55 @@ To run the tests, open the project on Spring Tool Suite.  Right click on the pro
 
 ### Unit Tests 
 Unit tests are run to ensure that each 'unit' of an application is functioning as they are intended to.  These can be made for individual classes and a test should be made for all the methods and attributes that make up each class.  
+  
+Example unit test for read task method:  
+```
+@Test
+	public void readTask() {
+		// RESOURCES
+		TaskDomain testTaskDomain = new TaskDomain(1L, "OneTask", false, null);
+		TaskDTO testTaskDTO = new TaskDTO(1L, "OneTask", false);
+
+		// RULES
+		Mockito.when(this.mockedMapper.map(testTaskDomain, TaskDTO.class)).thenReturn(testTaskDTO);
+		Mockito.when(this.mockedRepo.findById(testTaskDomain.getId())).thenReturn(Optional.of(testTaskDomain));
+
+		// ACTIONS
+		TaskDTO result = this.service.readTask(1L);
+
+		// ASSERTIONS
+		Assertions.assertThat(result).isEqualTo(testTaskDTO);
+
+		Mockito.verify(this.mockedRepo, Mockito.times(1)).findById(1L);
+		Mockito.verify(this.mockedMapper, Mockito.times(1)).map(testTaskDomain, TaskDTO.class);
+
+	}
+```
 
 ### Integration Tests 
 Integration tests are run to check that the communication between different objects is happening correctly.  For this TDL web application, a controller class is used to call the relevant service class.  Mock requests are made to the controller class to test the communication between controller and service.
+  
+Example integration test for read task method:  
+```
+@Test
+	public void readTask() throws Exception {
+
+		// RESOURCES
+		TaskDTO expectedResult = new TaskDTO(1L, "TaskOne", false);
+
+		// REQUEST
+		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.GET,
+				"http://localhost:8080/Task/read/" + id);
+
+		// EXPECTATIONS
+		ResultMatcher matchStatus = MockMvcResultMatchers.status().isOk();
+		ResultMatcher matchContent = MockMvcResultMatchers.content().json(jsonifier.writeValueAsString(expectedResult));
+
+		// ACTION
+		this.mock.perform(mockRequest).andExpect(matchStatus).andExpect(matchContent);
+
+	}
+```
 
 ### User Acceptance Criteria Tests
 Selenium was used to run automated tests for the following user acceptance criteria:  
