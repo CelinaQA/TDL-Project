@@ -29,7 +29,7 @@ Unit tests are run to ensure that each 'unit' of an application is functioning a
   
 Example unit test for read task method:  
 ```
-@Test
+	@Test
 	public void readTask() {
 		// RESOURCES
 		TaskDomain testTaskDomain = new TaskDomain(1L, "OneTask", false, null);
@@ -56,7 +56,7 @@ Integration tests are run to check that the communication between different obje
   
 Example integration test for read task method:  
 ```
-@Test
+	@Test
 	public void readTask() throws Exception {
 
 		// RESOURCES
