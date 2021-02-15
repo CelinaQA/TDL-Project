@@ -187,7 +187,7 @@ public class TDLSiteTest {
 		// AND: I delete a list
 		website.deletePage.deleteList();
 
-		// THEN: I should see the list was created successfully
+		// THEN: I should see the list was deleted successfully
 		String result = "";
 		synchronized (result) {
 			result.wait(1000);
