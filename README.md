@@ -32,6 +32,7 @@ Integration tests are run to check that the communication between different obje
 
 ### User Acceptance Criteria Tests
 Selenium was used to run automated tests for the following user acceptance criteria:  
+  
 Given that I can access my TDL Web Application,  
 * when I navigate to the create tab and I create a list, I should be able to see that my list was created successfully 
 * when I navigate to the create tab and I add a task, I should be able to see that my task was added successfully 
