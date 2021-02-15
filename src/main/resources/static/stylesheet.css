@@ -1,0 +1,21 @@
+#web-logo {
+    padding: 50px;
+}
+
+#myTab {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+    justify-content: center;
+}
+
+#myTabContent {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+    text-align: center;
+}
+
+div.form-group{
+    justify-content: center;
+}
