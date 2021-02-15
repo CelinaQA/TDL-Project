@@ -29,26 +29,26 @@ Unit tests are run to ensure that each 'unit' of an application is functioning a
   
 Example unit test for read task method:  
 ```
-	@Test
-	public void readTask() {
-		// RESOURCES
-		TaskDomain testTaskDomain = new TaskDomain(1L, "OneTask", false, null);
-		TaskDTO testTaskDTO = new TaskDTO(1L, "OneTask", false);
+@Test
+public void readTask() {
+	// RESOURCES
+	TaskDomain testTaskDomain = new TaskDomain(1L, "OneTask", false, null);
+	TaskDTO testTaskDTO = new TaskDTO(1L, "OneTask", false);
 
-		// RULES
-		Mockito.when(this.mockedMapper.map(testTaskDomain, TaskDTO.class)).thenReturn(testTaskDTO);
-		Mockito.when(this.mockedRepo.findById(testTaskDomain.getId())).thenReturn(Optional.of(testTaskDomain));
+	// RULES
+	Mockito.when(this.mockedMapper.map(testTaskDomain, TaskDTO.class)).thenReturn(testTaskDTO);
+	Mockito.when(this.mockedRepo.findById(testTaskDomain.getId())).thenReturn(Optional.of(testTaskDomain));
 
-		// ACTIONS
-		TaskDTO result = this.service.readTask(1L);
+	// ACTIONS
+	TaskDTO result = this.service.readTask(1L);
 
-		// ASSERTIONS
-		Assertions.assertThat(result).isEqualTo(testTaskDTO);
+	// ASSERTIONS
+	Assertions.assertThat(result).isEqualTo(testTaskDTO);
 
-		Mockito.verify(this.mockedRepo, Mockito.times(1)).findById(1L);
-		Mockito.verify(this.mockedMapper, Mockito.times(1)).map(testTaskDomain, TaskDTO.class);
+	Mockito.verify(this.mockedRepo, Mockito.times(1)).findById(1L);
+	Mockito.verify(this.mockedMapper, Mockito.times(1)).map(testTaskDomain, TaskDTO.class);
 
-	}
+}
 ```
 
 ### Integration Tests 
@@ -56,24 +56,24 @@ Integration tests are run to check that the communication between different obje
   
 Example integration test for read task method:  
 ```
-	@Test
-	public void readTask() throws Exception {
+@Test
+public void readTask() throws Exception {
 
-		// RESOURCES
-		TaskDTO expectedResult = new TaskDTO(1L, "TaskOne", false);
+	// RESOURCES
+	TaskDTO expectedResult = new TaskDTO(1L, "TaskOne", false);
 
-		// REQUEST
-		MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.GET,
-				"http://localhost:8080/Task/read/" + id);
+	// REQUEST
+	MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.request(HttpMethod.GET,
+			"http://localhost:8080/Task/read/" + id);
 
-		// EXPECTATIONS
-		ResultMatcher matchStatus = MockMvcResultMatchers.status().isOk();
-		ResultMatcher matchContent = MockMvcResultMatchers.content().json(jsonifier.writeValueAsString(expectedResult));
+	// EXPECTATIONS
+	ResultMatcher matchStatus = MockMvcResultMatchers.status().isOk();
+	ResultMatcher matchContent = MockMvcResultMatchers.content().json(jsonifier.writeValueAsString(expectedResult));
 
-		// ACTION
-		this.mock.perform(mockRequest).andExpect(matchStatus).andExpect(matchContent);
+	// ACTION
+	this.mock.perform(mockRequest).andExpect(matchStatus).andExpect(matchContent);
 
-	}
+}
 ```
 
 ### User Acceptance Criteria Tests
