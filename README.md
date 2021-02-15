@@ -33,12 +33,12 @@ Integration tests are run to check that the communication between different obje
 ### User Acceptance Criteria Tests
 Selenium was used to run automated tests for the following user acceptance criteria: 
 Given that I can access my TDL Web Apllication, 
-*when I navigate to the create tab and I create a list, I should be able to see that my list was created successfully 
-*when I navigate to the create tab and I add a task, I should be able to see that my task was added successfully 
-*when I navigate to the read list tab and I select a list to read, I should be able to see the tasks in my list 
-*when I navigate to the update list tab and I update a task in my list, I should see the task was updated successfully and see my updated task description 
-*when I navigate to the delete tab and I delete a task in my list, I should be able to see the task was deleted successfully 
-*when I navigate to the delete tab and I delete a list, I should see the list was deleted successfully 
+* when I navigate to the create tab and I create a list, I should be able to see that my list was created successfully 
+* when I navigate to the create tab and I add a task, I should be able to see that my task was added successfully 
+* when I navigate to the read list tab and I select a list to read, I should be able to see the tasks in my list 
+* when I navigate to the update list tab and I update a task in my list, I should see the task was updated successfully and see my updated task description 
+* when I navigate to the delete tab and I delete a task in my list, I should be able to see the task was deleted successfully 
+* when I navigate to the delete tab and I delete a list, I should see the list was deleted successfully 
 
 ### Static Analysis
 SonarQube was used for static analysis to review the overall quality of the code:
