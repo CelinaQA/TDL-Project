@@ -96,7 +96,29 @@ This TDL Web Application runs on http://127.0.0.1:8080/index.html.  The .war fil
 ```
 $ java -jar celina-TDL-0.0.1-SNAPSHOT.jar
 ```
-After the execution of the above command, click on the URL provided to access the TDL Web Application.  Before you can create a task, you must first create a list for that task to be assigned to.  Navigate between the create, read, update and delete tabs to access the different functions available.  Refresh the page after creating/updating/deleting a list or task to update the dropdown lists on the page. 
+After the execution of the above command, click on the URL provided to access the TDL Web Application.  Before you can create a task, you must first create a list for that task to be assigned to.  Navigate between the create, read, update and delete tabs to access the different functions available.  Refresh the page after creating/updating/deleting a list or task to update the dropdown lists on the page.  
+  
+### Home page:  
+![TDL screenshot 1](https://github.com/CelinaQA/TDL-Project/blob/feature-Documentation/Documentation/TDL%20Screenshots/Picture1.png)  
+  
+### Viewing a list:  
+![TDL screenshot 2](https://github.com/CelinaQA/TDL-Project/blob/feature-Documentation/Documentation/TDL%20Screenshots/Picture1.png)  
+  
+### Update Page:  
+![TDL screenshot 3](https://github.com/CelinaQA/TDL-Project/blob/feature-Documentation/Documentation/TDL%20Screenshots/Picture1.png)  
+  
+### Marking task as done and updating a task description:  
+![TDL screenshot 4](https://github.com/CelinaQA/TDL-Project/blob/feature-Documentation/Documentation/TDL%20Screenshots/Picture1.png)  
+
+### Viewing updated tasks:  
+![TDL screenshot 5](https://github.com/CelinaQA/TDL-Project/blob/feature-Documentation/Documentation/TDL%20Screenshots/Picture1.png)  
+
+### Deleting task from list:  
+![TDL screenshot 6](https://github.com/CelinaQA/TDL-Project/blob/feature-Documentation/Documentation/TDL%20Screenshots/Picture1.png)  
+
+### Viewing list after deleting a task:  
+![TDL screenshot 7](https://github.com/CelinaQA/TDL-Project/blob/feature-Documentation/Documentation/TDL%20Screenshots/Picture1.png)  
+
 
 ## Built With
 
