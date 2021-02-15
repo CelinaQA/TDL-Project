@@ -1,4 +1,4 @@
-## Coverage: 80.4%  
+## Coverage: 84.9%  
 ![Coverage screenshot](https://github.com/CelinaQA/TDL-Project/blob/featureWebsite/Documentation/Coverage.png)
 
 # TDL-Project
@@ -34,7 +34,8 @@ Integration tests are run to check that the communication between different obje
 Selenium was used to run automated tests for the following user acceptance criteria:
 
 ### Static Analysis
-SonarQube was used for static analysis
+SonarQube was used for static analysis to review the overall quality of the code:
+![Coverage screenshot](https://github.com/CelinaQA/TDL-Project/blob/featureWebsite/Documentation/SonarQube-screenshot.png)
 
 ## Deployment
 
