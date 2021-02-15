@@ -102,22 +102,22 @@ After the execution of the above command, click on the URL provided to access th
 ![TDL screenshot 1](https://github.com/CelinaQA/TDL-Project/blob/feature-Documentation/Documentation/TDL%20Screenshots/Picture1.png)  
   
 ### Viewing a list:  
-![TDL screenshot 2](https://github.com/CelinaQA/TDL-Project/blob/feature-Documentation/Documentation/TDL%20Screenshots/Picture1.png)  
+![TDL screenshot 2](https://github.com/CelinaQA/TDL-Project/blob/feature-Documentation/Documentation/TDL%20Screenshots/Picture2.png)  
   
 ### Update Page:  
-![TDL screenshot 3](https://github.com/CelinaQA/TDL-Project/blob/feature-Documentation/Documentation/TDL%20Screenshots/Picture1.png)  
+![TDL screenshot 3](https://github.com/CelinaQA/TDL-Project/blob/feature-Documentation/Documentation/TDL%20Screenshots/Picture3.png)  
   
 ### Marking task as done and updating a task description:  
-![TDL screenshot 4](https://github.com/CelinaQA/TDL-Project/blob/feature-Documentation/Documentation/TDL%20Screenshots/Picture1.png)  
+![TDL screenshot 4](https://github.com/CelinaQA/TDL-Project/blob/feature-Documentation/Documentation/TDL%20Screenshots/Picture4.png)  
 
 ### Viewing updated tasks:  
-![TDL screenshot 5](https://github.com/CelinaQA/TDL-Project/blob/feature-Documentation/Documentation/TDL%20Screenshots/Picture1.png)  
+![TDL screenshot 5](https://github.com/CelinaQA/TDL-Project/blob/feature-Documentation/Documentation/TDL%20Screenshots/Picture5.png)  
 
 ### Deleting task from list:  
-![TDL screenshot 6](https://github.com/CelinaQA/TDL-Project/blob/feature-Documentation/Documentation/TDL%20Screenshots/Picture1.png)  
+![TDL screenshot 6](https://github.com/CelinaQA/TDL-Project/blob/feature-Documentation/Documentation/TDL%20Screenshots/Picture6.png)  
 
 ### Viewing list after deleting a task:  
-![TDL screenshot 7](https://github.com/CelinaQA/TDL-Project/blob/feature-Documentation/Documentation/TDL%20Screenshots/Picture1.png)  
+![TDL screenshot 7](https://github.com/CelinaQA/TDL-Project/blob/feature-Documentation/Documentation/TDL%20Screenshots/Picture7.png)  
 
 
 ## Built With
