@@ -1,0 +1,11 @@
+com\qa\demo\selenium\TDLSite\child\deleteTab.class
+com\qa\demo\selenium\TDLSiteTest.class
+com\qa\demo\selenium\TDLSite\child\readTab.class
+com\qa\demo\services\TaskServiceUnitTest.class
+com\qa\demo\selenium\TDLSite\child\createTab.class
+com\qa\demo\selenium\TDLSite\child\updateTab.class
+com\qa\demo\rest\ListControllerIntegrationTest.class
+com\qa\demo\CelinaTdlApplicationTests.class
+com\qa\demo\rest\TaskControllerIntegrationTest.class
+com\qa\demo\selenium\TDLSite\TDLPortal.class
+com\qa\demo\services\ListServiceUnitTest.class

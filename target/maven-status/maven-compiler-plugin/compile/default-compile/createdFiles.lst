@@ -1,0 +1,12 @@
+com\qa\demo\config\AppConfig.class
+com\qa\demo\persistence\repos\ListRepo.class
+com\qa\demo\persistence\repos\TaskRepo.class
+com\qa\demo\rest\TaskController.class
+com\qa\demo\persistence\dtos\TaskDTO.class
+com\qa\demo\services\TaskService.class
+com\qa\demo\rest\ListController.class
+com\qa\demo\services\ListService.class
+com\qa\demo\CelinaTdlApplication.class
+com\qa\demo\persistence\domain\TaskDomain.class
+com\qa\demo\persistence\domain\ListDomain.class
+com\qa\demo\persistence\dtos\ListDTO.class
